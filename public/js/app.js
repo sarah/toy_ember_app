@@ -92,6 +92,7 @@ App.Router = Ember.Router.extend({
       route: '/:githubUserName',
       showAllContributors: Ember.Route.transitionTo("contributors"),
       showDetails: Ember.Route.transitionTo("details"),
+      showRepos: Ember.Route.transitionTo("repos"),
       connectOutlets: function(router, context){
         router.get("applicationController").connectOutlet('oneContributor', context);
       },
