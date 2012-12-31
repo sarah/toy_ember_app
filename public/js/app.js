@@ -26,7 +26,20 @@ App.DetailsView = Ember.View.extend({
 App.OneContributorController = Ember.ObjectController.extend();
 
 
-App.Contributor = Ember.Object.extend();
+App.Contributor = Ember.Object.extend({
+  loadMoreDetails: function(){
+    $.ajax({
+      url: "https://api.github.com/users/%@".fmt(this.get('login')) + App.AuthenticatedURLParams,
+      context: this,
+      dataType: 'jsonp',
+      success: function(response){
+        this.setProperties(response.data);
+      }
+    })
+  }
+});
+
+
 App.Contributor.reopenClass({
   findOne: function(username){
     var contributor = App.Contributor.create({
@@ -99,6 +112,7 @@ App.Router = Ember.Router.extend({
       details: Ember.Route.extend({
         route: '/',
         connectOutlets: function(router){
+          router.get('oneContributorController.content').loadMoreDetails();
           router.get('oneContributorController').connectOutlet('details');
         }
       })
