@@ -11,6 +11,13 @@ App.AllContributorsView = Ember.View.extend({
   templateName: 'contributors'
 });
 
+App.OneContributorView = Ember.View.extend({
+  templateName: 'a-contributor'
+});
+
+App.OneContributorController = Ember.ObjectController.extend();
+
+
 App.Contributor = Ember.Object.extend();
 App.Contributor.reopenClass({
   allContributors: [],
@@ -33,6 +40,9 @@ App.Router = Ember.Router.extend({
   root: Ember.Route.extend({
     contributors: Ember.Route.extend({
       route: '/',
+
+      showContributer: Ember.Route.transitionTo('aContributor'),
+
       connectOutlets: function(router){
         router.get('applicationController').connectOutlet('allContributors', App.Contributor.find());
       }

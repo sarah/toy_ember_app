@@ -11,8 +11,12 @@
 
     <script type="text/x-handlebars" data-template-name="contributors">
       {{#each person in controller}}
-      {{person.login}}
+      <a {{action showContributer person}}> {{person.login}} </a>
       {{/each}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="a-contributor">
+      {{login}} - {{contributions}} contributions to Ember.js
     </script>
 
     <!-- Required JS  -->
