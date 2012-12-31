@@ -68,20 +68,30 @@ App.Router = Ember.Router.extend({
 
     aContributor: Ember.Route.extend({
       route: '/:githubUserName',
-
       showAllContributors: Ember.Route.transitionTo("contributors"),
-
       connectOutlets: function(router, context){
         router.get("applicationController").connectOutlet('oneContributor', context);
       },
       serialize: function(router, context){
-        return{
-          githubUserName: context.get('login')
-        }
+        return{ githubUserName: context.get('login') }
       },
       deserialize: function(router, urlParams){
         return App.Contributor.findOne(urlParams.githubUserName);
-      }
+      },
+
+      initialState: 'details',
+      details: Ember.Route.extend({
+        route: "/",
+        connectOutlets: function(router){
+          router.get("oneContributorController").connectOutlet("details");
+        }
+      }),
+      repos: Ember.Route.extend({
+        route: "/repos",
+        connectOutlet: function(router){
+          router.get("oneContributorController").connectOutlet("repos");
+        }
+      })
     })
   })
 });
