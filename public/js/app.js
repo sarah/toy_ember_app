@@ -19,6 +19,10 @@ App.OneContributorView = Ember.View.extend({
   templateName: 'a-contributor'
 });
 
+App.DetailsView = Ember.View.extend({
+  templateName: 'contributor-details'
+})
+
 App.OneContributorController = Ember.ObjectController.extend();
 
 
@@ -73,20 +77,31 @@ App.Router = Ember.Router.extend({
 
     aContributor: Ember.Route.extend({
       route: '/:githubUserName',
-
       showAllContributors: Ember.Route.transitionTo("contributors"),
-
       connectOutlets: function(router, context){
         router.get("applicationController").connectOutlet('oneContributor', context);
       },
       serialize: function(router, context){
-        return{
-          githubUserName: context.get('login')
-        }
+        return{ githubUserName: context.get('login') }
       },
       deserialize: function(router, urlParams){
         return App.Contributor.findOne(urlParams.githubUserName);
-      }
+      },
+
+      initialState: 'details',
+      repos: Ember.Route.extend({
+        route: '/repos/',
+        connectOutlets: function(router){
+          router.get("oneContributorController").connectOutlet("repos");
+        }
+      }),
+
+      details: Ember.Route.extend({
+        route: '/',
+        connectOutlets: function(router){
+          router.get('oneContributorController').connectOutlet('details');
+        }
+      })
     })
   })
 });
