@@ -111,6 +111,7 @@ App.Router = Ember.Router.extend({
       repos: Ember.Route.extend({
         route: '/repos/',
         connectOutlets: function(router){
+          router.get('oneContributorController.content').loadRepos();
           router.get("oneContributorController").connectOutlet("repos");
         }
       }),
