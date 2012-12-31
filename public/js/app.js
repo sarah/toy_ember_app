@@ -17,42 +17,8 @@ App.OneContributorView = Ember.View.extend({
 
 App.OneContributorController = Ember.ObjectController.extend();
 
-App.DetailsView = Ember.View.extend({
-  templateName: 'contributor-details'
-})
 
-App.ReposView = Ember.View.extend({
-  templateName: 'repos'
-})
-
-App.Contributor = Ember.Object.extend({
-  loadMoreDetails: function(){
-    $.ajax({
-      url: 'https://api.github.com/users/%@'.fmt(this.get('login')),
-      context: this,
-      dataType: 'jsonp',
-      success: function(response){
-        this.setProperties(response.data);
-      }
-    })
-  },
-
-  loadRepos: function(){
-    console.log("foo");
-    $.ajax({
-      url: 'https://api.github.com/users/%@/repos'.fmt(this.get('login')),
-      context: this,
-      dataType: 'jsonp',
-      success: function(response){
-        console.log("fooo", response)
-        this.set('repos', response.data);
-      }
-    })
-  }
-
-});
-
-
+App.Contributor = Ember.Object.extend();
 App.Contributor.reopenClass({
   findOne: function(username){
     var contributor = App.Contributor.create({
@@ -103,35 +69,19 @@ App.Router = Ember.Router.extend({
     aContributor: Ember.Route.extend({
       route: '/:githubUserName',
 
-      showDetails: Ember.Route.transitionTo("details"),
-      showRepos: Ember.Route.transitionTo("repos"),
       showAllContributors: Ember.Route.transitionTo("contributors"),
 
       connectOutlets: function(router, context){
         router.get("applicationController").connectOutlet('oneContributor', context);
       },
       serialize: function(router, context){
-        return{ githubUserName: context.get('login') }
+        return{
+          githubUserName: context.get('login')
+        }
       },
       deserialize: function(router, urlParams){
         return App.Contributor.findOne(urlParams.githubUserName);
-      },
-
-      initialState: 'details',
-      details: Ember.Route.extend({
-        route: "/",
-        connectOutlets: function(router){
-          router.get("oneContributorController.content").loadMoreDetails();
-          router.get("oneContributorController").connectOutlet("details");
-        }
-      }),
-      repos: Ember.Route.extend({
-        route: "/repos",
-        connectOutlet: function(router){
-          router.get("oneContributorController.content").loadRepos();
-          router.get("oneContributorController").connectOutlet("repos");
-        }
-      })
+      }
     })
   })
 });

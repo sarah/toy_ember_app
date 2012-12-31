@@ -20,26 +20,8 @@
         <a {{action showAllContributors}}> All Contributors </a>
       </div>
       {{login}} - {{contributions}} contributions to Ember.js
-
-      <ul>
-        <li><a {{action showDetails}}> Details </a></li>
-        <li><a {{action showRepos}}> Repos </a></li>
-
-      <div>
-        {{outlet}}
-      </div>
     </script>
 
-    <script type="text/x-handlebars" data-template-name="contributor-details">
-      <p>{{email}}</p>
-      <p>{{bio}}</p>
-    </script>
-
-    <script type="text/x-handlebars" data-template-name="repos">
-      {{#each repo in repos}}
-      {{repo.name}}
-      {{/each}}
-    </script>
     <!-- Required JS  -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.rc.1/handlebars.min.js"></script>
