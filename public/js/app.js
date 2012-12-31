@@ -23,6 +23,7 @@ App.DetailsView = Ember.View.extend({
   templateName: 'contributor-details'
 })
 
+App.ReposController = Ember.ArrayController.extend();
 App.ReposView = Ember.View.extend({
   templateName: 'repos'
 })
@@ -31,6 +32,17 @@ App.OneContributorController = Ember.ObjectController.extend();
 
 
 App.Contributor = Ember.Object.extend({
+  loadRepos: function(){
+    console.log("foo");
+    $.ajax({
+      url: "https://api.github.com/users/%@".fmt(this.get('login')) + App.AuthenticatedURLParams,
+      context: this,
+      dataType: 'jsonp',
+      success: function(response){
+        this.set('repos', response.data);
+      }
+    })
+  },
   loadMoreDetails: function(){
     $.ajax({
       url: "https://api.github.com/users/%@".fmt(this.get('login')) + App.AuthenticatedURLParams,
