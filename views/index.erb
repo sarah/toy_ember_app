@@ -5,7 +5,14 @@
     <h1>Hello, World</h1>
     <h2>This is a Sinatra app</h2>
     <script type="text/x-handlebars" data-template-name="application">
-      I'm a handlebars template, rendered using Ember.
+      <h3>Ember Committers</h3>
+      {{outlet}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="contributors">
+      {{#each person in controller}}
+        {{person.login}}
+      {{/each}}
     </script>
 
     <!-- Required JS  -->
