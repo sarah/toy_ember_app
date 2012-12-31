@@ -1,4 +1,8 @@
 App = Ember.Application.create();
+App.GID = "fe9cb46d7aba268d722d"
+App.SECRET = "4529a54f21a46fd9365334b6533bfdeb04ed8707"
+
+App.AuthenticatedURLParams = '?client_id=' + App.GID + "&client_secret=" + App.SECRET;
 
 App.ApplicationView = Ember.View.extend({
   templateName: "application"
@@ -26,7 +30,7 @@ App.Contributor.reopenClass({
     });
 
     $.ajax({
-      url: 'https://api.github.com/repos/emberjs/ember.js/contributors',
+      url: 'https://api.github.com/repos/emberjs/ember.js/contributors' + App.AuthenticatedURLParams,
       dataType: 'jsonp',
       context: contributor,
       success: function(response){
@@ -41,9 +45,10 @@ App.Contributor.reopenClass({
   find: function(){
     var self = this;
     $.ajax({
-      url: "https://api.github.com/repos/emberjs/ember.js/contributors",
+      url: "https://api.github.com/repos/emberjs/ember.js/contributors" + App.AuthenticatedURLParams,
       dataType: 'jsonp',
       success: function(response){
+        console.log(response);
         response.data.forEach(function(contributor){
           self.allContributors.addObject(App.Contributor.create(contributor))
         })
