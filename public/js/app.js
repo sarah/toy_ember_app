@@ -25,7 +25,15 @@ App.Contributor.reopenClass({
       login: username
     });
 
-
+    $.ajax({
+      url: 'https://api.github.com/repos/emberjs/ember.js/contributors',
+      dataType: 'jsonp',
+      context: contributor,
+      success: function(response){
+        this.setProperties(response.data.findProperty("login", username));
+      }
+    })
+    return contributor;
   }
 });
 App.Contributor.reopenClass({
