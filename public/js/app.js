@@ -31,7 +31,7 @@ App.Contributor.reopenClass({
 
 App.Router = Ember.Router.extend({
   root: Ember.Route.extend({
-    index: Ember.Route.extend({
+    contributors: Ember.Route.extend({
       route: '/',
       connectOutlets: function(router){
         router.get('applicationController').connectOutlet('allContributors', App.Contributor.find());
