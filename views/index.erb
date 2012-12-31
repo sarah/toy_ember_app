@@ -35,6 +35,13 @@
       <p>{{email}}</p>
       <p>{{bio}}</p>
     </script>
+
+    <script type="text/x-handlebars" data-template-name="repos">
+      {{#each repo in repos}}
+      {{repo.name}}
+      {{/each}}
+    </script>
+
     <!-- Required JS  -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.rc.1/handlebars.min.js"></script>

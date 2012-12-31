@@ -23,6 +23,10 @@ App.DetailsView = Ember.View.extend({
   templateName: 'contributor-details'
 })
 
+App.ReposView = Ember.View.extend({
+  templateName: 'repos'
+})
+
 App.OneContributorController = Ember.ObjectController.extend();
 
 
