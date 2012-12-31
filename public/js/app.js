@@ -20,6 +20,15 @@ App.OneContributorController = Ember.ObjectController.extend();
 
 App.Contributor = Ember.Object.extend();
 App.Contributor.reopenClass({
+  findOne: function(username){
+    var contributor = App.Contributor.create({
+      login: username
+    });
+
+
+  }
+});
+App.Contributor.reopenClass({
   allContributors: [],
   find: function(){
     var self = this;
@@ -37,6 +46,7 @@ App.Contributor.reopenClass({
 });
 
 App.Router = Ember.Router.extend({
+  enableLogging: true,
   root: Ember.Route.extend({
     contributors: Ember.Route.extend({
       route: '/',
@@ -52,6 +62,14 @@ App.Router = Ember.Router.extend({
       route: '/:githubUserName',
       connectOutlets: function(router, context){
         router.get("applicationController").connectOutlet('oneContributor', context);
+      },
+      serialize: function(router, context){
+        return{
+          githubUserName: context.get('login')
+        }
+      },
+      deserialize: function(router, urlParams){
+        return App.Contributor.findOne(urlParams.githubUserName);
       }
     })
   })
