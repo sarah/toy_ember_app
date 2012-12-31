@@ -11,12 +11,30 @@ App.AllContributorsView = Ember.View.extend({
   templateName: 'contributors'
 });
 
+App.Contributor = Ember.Object.extend();
+App.Contributor.reopenClass({
+  allContributors: [],
+  find: function(){
+    var self = this;
+    $.ajax({
+      url: "https://api.github.com/repos/emberjs/ember.js/contributors",
+      dataType: 'jsonp',
+      success: function(response){
+        response.data.forEach(function(contributor){
+          self.allContributors.addObject(App.Contributor.create(contributor))
+        })
+      }
+    });
+    return this.allContributors;
+  }
+});
+
 App.Router = Ember.Router.extend({
   root: Ember.Route.extend({
     index: Ember.Route.extend({
       route: '/',
       connectOutlets: function(router){
-        router.get('applicationController').connectOutlet('allContributors', [{login:'wycats'},{login:'tomdale'}]);
+        router.get('applicationController').connectOutlet('allContributors', App.Contributor.find());
       }
     })
   })
