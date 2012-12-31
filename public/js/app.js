@@ -36,6 +36,13 @@ App.Router = Ember.Router.extend({
       connectOutlets: function(router){
         router.get('applicationController').connectOutlet('allContributors', App.Contributor.find());
       }
+  }),
+
+    aContributor: Ember.Route.extend({
+      route: '/:githubUserName',
+      connectOutlets: function(router, context){
+        router.get("applicationController").connectOutlet('oneContributor', context);
+      }
     })
   })
 });
